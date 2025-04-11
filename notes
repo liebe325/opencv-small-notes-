@@ -1,0 +1,130 @@
+import numpy as np
+import cv2 as cv
+
+"""
+#program for displaying the image 
+
+img = cv.imread("Photos/cat.jpg")
+cv.imshow("output",img)
+cv.waitKey(0)
+#---------------------------------------------------
+#program for play a vedio from the file path
+
+cap=cv.VideoCapture("videos/dog.mp4")
+while True:
+    success,img=cap.read()
+    cv.imshow("Vedio",img)
+    if cv.waitKey(1) & 0xff == ord("q"):
+        break
+#---------------------------------------------------
+#program for webcam
+
+cap= cv.VideoCapture(0)
+cap.set(3,840) # set 2 is for width of video
+cap.set(4,480) # set 4 is for height of video
+cap.set(10,100)# set 10 is for the image qu
+
+
+while True:
+    success,img=cap.read()
+    cv.imshow("Vedio",img)
+    if cv.waitKey(1) & 0xff == ord("q"):
+        break
+#---------------------------------------------------
+
+#-------------------Basic Function in opencv----------------
+
+img=cv.imread("photos/cat.jpg")
+karnel=np.ones((5,5),np.uint8) #we are using numpy for creating 5x5 matrix which as ones and unsinged
+
+imgGray=cv.cvtColor(img,cv.COLOR_BGR2GRAY) # cvtColour is used for changing colours
+imgBlur=cv.GaussianBlur(imgGray,(7,7),0) # gaussianblur is used for bluring the image
+imgcanny=cv.Canny(img,150,200) # canny is used for finding the e
+imgdialation=cv.dilate(imgcanny,karnel,iterations=1) # dilate is used for thicking the canny lines in image and storing it in a matrix using nump
+imgeroded=cv.erode(imgdialation,karnel,iterations=1) # erode is used thining the canny lines
+
+cv.imshow("Gray Image",imgGray)
+cv.imshow("Blur Image",imgBlur)
+cv.imshow("canny Image",imgcanny)
+cv.imshow("dilate Image",imgdialation)
+cv.imshow("erode Image",imgeroded)
+
+cv.waitKey(0)
+
+#---------------------------------------------------------------------
+
+#--------------------------------RESIZING AND CROPPING---------------------------
+#opencv conventions
+'''
+-->in math the x axis is towards the E and y is towards the N 
+-->in open cv x asix is towards  the E and Y is towards the S
+'''
+img=cv.imread("photos//download.jpg")
+
+print(img.shape)   # shape will give height,width,no for channel which is bgr
+imgResize = cv.resize(img , (400 , 600))  # resizing the given image where width comes first and then height
+imgcropped = img[0:100,100: 200 ]  # we are cropping the image using the matrix
+
+cv.imshow("image", img)
+cv.imshow("resized image", imgResize)
+cv.imshow("Cropped image", imgcropped)
+cv.waitKey(0)
+-------------------------------------------------------------------------------------------------------------------
+#-----------------------------------SHAPES AND TEXTS---------------------------------------------------------------
+img=np.zeros((512,512,3),np.uint8)
+#print(img)
+#   height , width
+#img[200:300,100:300]=250,0,0
+#           starting point , ending point , colour , thickness
+cv.line(img,(0,0),(300,300),(0,255,0),3)
+# line in img
+cv.line(img,(0,0),(img.shape[1],img.shape[0]),(0,255,0),3)
+#rectangle
+cv.rectangle(img,(0,0),(250,350),(0,0,255),2)
+#filled rectangle box
+cv.rectangle(img,(0,0),(250,350),(0,0,255),cv.FILLED)
+#circle        center point,radius,colour,thickness
+cv.circle(img,(400,50),30,(255,255,0),2)
+#text on the image
+cv.putText(img,"opencv",(300,200),cv.FONT_HERSHEY_COMPLEX,0.5,(0,150,0),1)
+cv.imshow("image",img)
+cv.waitKey(0)
+
+#---------------------convert colour in image---------------------------------------
+
+def empty(a):
+    pass
+
+
+cv.namedWindow("trackbar")
+cv.resizeWindow("trackbar", 640, 240)
+cv.createTrackbar("hue min", "trackbar", 0, 179, empty)
+cv.createTrackbar("hue max", "trackbar", 0, 179, empty)
+cv.createTrackbar("sat min", "trackbar", 0, 255, empty)
+cv.createTrackbar("sat max", "trackbar", 255, 255, empty)
+cv.createTrackbar("value min", "trackbar", 0, 255, empty)
+cv.createTrackbar("value max", "trackbar", 255, 255, empty)
+
+while True:
+    img = cv.imread("photos//cat.jpg")
+    imgHSV = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+    h_min = cv.getTrackbarPos("hue min", "trackbar")
+    h_max = cv.getTrackbarPos("hue max", "trackbar")
+    s_min = cv.getTrackbarPos("sat min", "trackbar")
+    s_max = cv.getTrackbarPos("sat max", "trackbar")
+    v_min = cv.getTrackbarPos("value min", "trackbar")
+    v_max = cv.getTrackbarPos("value max", "trackbar")
+
+    print(h_min, h_max, s_min, s_max, v_min, v_max)
+
+    lower = np.array([h_min, s_min, v_min])
+    upper = np.array([h_max, s_max, v_max])
+    
+    mask = cv.inRange(imgHSV, lower, upper)
+    cv.imshow("original", img)
+    cv.imshow("new image", imgHSV)
+    cv.imshow("mask", mask)
+    cv.waitKey(1)
+---------------------------------------------------------------------------------------------
+
+"""
